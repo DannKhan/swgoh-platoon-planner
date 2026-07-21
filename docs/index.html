@@ -70,7 +70,7 @@
 
 async function loadSnapshot() {
 
-    const response = await fetch("../data/snapshots/latest.json");
+    const response = await fetch("/data/snapshots/latest.json");
 
     const snapshot = await response.json();
 
