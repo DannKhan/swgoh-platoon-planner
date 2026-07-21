@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>SWGOH Guild Suite</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+        }
+
+        h1 {
+            margin-bottom: 5px;
+        }
+
+        .info {
+            margin-bottom: 20px;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        th, td {
+            border: 1px solid #ccc;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background: #eee;
+        }
+    </style>
+</head>
+
+
+<body>
+
+<h1>SWGOH Guild Suite</h1>
+
+<div class="info">
+    <div id="guildName">Loading...</div>
+    <div id="guildMembers"></div>
+    <div id="snapshotTime"></div>
+</div>
+
+
+<table>
+
+<thead>
+<tr>
+    <th>Name</th>
+    <th>GP</th>
+    <th>Character GP</th>
+    <th>Ship GP</th>
+    <th>Last Activity</th>
+</tr>
+</thead>
+
+<tbody id="players">
+</tbody>
+
+</table>
+
+
+<script>
+
+async function loadSnapshot() {
+
+    const response = await fetch("../data/snapshots/latest.json");
+
+    const snapshot = await response.json();
+
+
+    document.getElementById("guildName").textContent =
+        "Guild: " + snapshot.guild.profile.name;
+
+
+    document.getElementById("guildMembers").textContent =
+        "Members: " + snapshot.guild.member.length;
+
+
+    document.getElementById("snapshotTime").textContent =
+        "Updated: " + snapshot.snapshotTime;
+
+
+    const table = document.getElementById("players");
+
+
+    snapshot.guild.member.forEach(player => {
+
+        const row = document.createElement("tr");
+
+        row.innerHTML = `
+            <td>${player.playerName}</td>
+            <td>${player.galacticPower}</td>
+            <td>${player.characterGalacticPower}</td>
+            <td>${player.shipGalacticPower}</td>
+            <td>${new Date(
+                Number(player.lastActivityTime)
+            ).toLocaleString()}</td>
+        `;
+
+        table.appendChild(row);
+
+    });
+
+}
+
+
+loadSnapshot();
+
+</script>
+
+
+</body>
+</html>
