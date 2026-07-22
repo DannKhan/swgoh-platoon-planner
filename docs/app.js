@@ -1,13 +1,14 @@
 import { loadLocalSnapshot } from "./api.js";
 import { renderSnapshot } from "./render.js";
+import { testComlink } from "./api.js";
 
 async function initialize() {
 
     try {
 
-        const snapshot = await loadLocalSnapshot();
+        const player = await testComlink();
 
-        renderSnapshot(snapshot);
+        console.log(player);
 
     }
 
