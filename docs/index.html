@@ -86,7 +86,7 @@
 <div class="panel">
 
     <div class="row">
-        <label for="searchType">Search type</label>
+        <label>Search type</label>
 
         <select id="searchType">
             <option value="ally">AllyCode</option>
@@ -95,16 +95,17 @@
     </div>
 
     <div class="row">
-        <label for="searchValue">Value</label>
+
+        <label>Value</label>
 
         <input
             id="searchValue"
-            type="text"
             placeholder="743985967 or BuzzLighter">
 
         <button id="searchButton">
             Search
         </button>
+
     </div>
 
     <div id="status">
@@ -114,21 +115,31 @@
 </div>
 
 <div class="info">
-    <div id="guildName">Loading...</div>
+
+    <div id="guildName">
+        Loading...
+    </div>
+
     <div id="guildMembers"></div>
+
     <div id="snapshotTime"></div>
+
 </div>
 
 <table>
 
 <thead>
+
 <tr>
-    <th>Name</th>
-    <th>GP</th>
-    <th>Character GP</th>
-    <th>Ship GP</th>
-    <th>Last Activity</th>
+
+<th>Name</th>
+<th>GP</th>
+<th>Character GP</th>
+<th>Ship GP</th>
+<th>Last Activity</th>
+
 </tr>
+
 </thead>
 
 <tbody id="players">
@@ -136,68 +147,7 @@
 
 </table>
 
-<script>
-
-async function loadSnapshot() {
-
-    const response = await fetch("./data/snapshots/latest.json");
-
-    const snapshot = await response.json();
-
-    document.getElementById("guildName").textContent =
-        "Guild: " + snapshot.guild.profile.name;
-
-    document.getElementById("guildMembers").textContent =
-        "Members: " + snapshot.guild.member.length;
-
-    document.getElementById("snapshotTime").textContent =
-        "Updated: " + snapshot.snapshotTime;
-
-    const table = document.getElementById("players");
-
-    table.innerHTML = "";
-
-    snapshot.guild.member.forEach(player => {
-
-        const row = document.createElement("tr");
-
-        row.innerHTML = `
-            <td>${player.playerName}</td>
-            <td>${player.galacticPower}</td>
-            <td>${player.characterGalacticPower}</td>
-            <td>${player.shipGalacticPower}</td>
-            <td>${new Date(Number(player.lastActivityTime)).toLocaleString()}</td>
-        `;
-
-        table.appendChild(row);
-
-    });
-
-}
-
-document
-    .getElementById("searchButton")
-    .addEventListener("click", () => {
-
-        const type = document.getElementById("searchType").value;
-        const value = document.getElementById("searchValue").value.trim();
-
-        if (!value) {
-            alert("Please enter a value.");
-            return;
-        }
-
-        console.log("Search type:", type);
-        console.log("Search value:", value);
-
-        document.getElementById("status").textContent =
-            "Search functionality will be implemented in the next milestone.";
-
-    });
-
-loadSnapshot();
-
-</script>
+<script type="module" src="./app.js"></script>
 
 </body>
 </html>

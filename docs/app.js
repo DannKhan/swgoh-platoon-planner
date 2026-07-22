@@ -1,25 +1,50 @@
-const status = document.getElementById("status");
+import { loadLocalSnapshot } from "./api.js";
+import { renderSnapshot } from "./render.js";
 
-const button = document.getElementById("searchButton");
+async function initialize() {
 
-button.addEventListener("click", async () => {
+    try {
 
-    const type = document.getElementById("searchType").value;
+        const snapshot = await loadLocalSnapshot();
 
-    const value = document.getElementById("searchValue").value.trim();
-
-    if (!value) {
-
-        alert("Enter search value.");
-
-        return;
+        renderSnapshot(snapshot);
 
     }
 
-    status.textContent = "Loading...";
+    catch (error) {
 
-    console.log(type, value);
+        console.error(error);
 
-    // здесь позже будет вызов Comlink API
+        document.getElementById("status").textContent =
+            "Failed to load snapshot.";
 
-});
+    }
+
+}
+
+document
+    .getElementById("searchButton")
+    .addEventListener("click", () => {
+
+        const type =
+            document.getElementById("searchType").value;
+
+        const value =
+            document.getElementById("searchValue").value.trim();
+
+        if (!value) {
+
+            alert("Please enter a value.");
+
+            return;
+
+        }
+
+        console.log(type, value);
+
+        document.getElementById("status").textContent =
+            "Search will be implemented in the next step.";
+
+    });
+
+initialize();
